@@ -16,6 +16,7 @@
 
 const connect = require('../api/ws/rpc/connect');
 const disconnect = require('../api/ws/rpc/disconnect');
+const Peer = require('../logic/peer');
 
 /**
  * Description of the class.
@@ -73,14 +74,8 @@ PeersManager.prototype.remove = function(peer) {
 	if (!peer || !this.peers[peer.string]) {
 		return false;
 	}
-	this.nonceToAddressMap[peer.nonce] = null;
-	delete this.nonceToAddressMap[peer.nonce];
 
-	this.addressToNonceMap[peer.string] = null;
-	delete this.addressToNonceMap[peer.string];
-
-	this.peers[peer.string] = null;
-	delete this.peers[peer.string];
+	this.peers[peer.string].state = Peer.STATE.DISCONNECTED;
 
 	disconnect(peer);
 	return true;

@@ -237,27 +237,11 @@ describe('PeersManager', () => {
 			});
 
 			it('should not change a state of connections table when removing not existing entry', () => {
-				peersManagerInstance.remove(validPeer);
-				expect(peersManagerInstance).to.have.property('peers').to.be.empty;
-				expect(peersManagerInstance).to.have.property('addressToNonceMap').to.be
-					.empty;
-				return expect(peersManagerInstance).to.have.property(
-					'nonceToAddressMap'
-				).to.be.empty;
-			});
-
-			it('should remove previously added valid entry', () => {
 				peersManagerInstance.add(validPeer);
-				expect(peersManagerInstance.peers)
-					.to.have.property(validPeer.string)
-					.eql(validPeer);
 				peersManagerInstance.remove(validPeer);
-				expect(peersManagerInstance).to.have.property('peers').to.be.empty;
-				expect(peersManagerInstance).to.have.property('addressToNonceMap').to.be
-					.empty;
-				return expect(peersManagerInstance).to.have.property(
-					'nonceToAddressMap'
-				).to.be.empty;
+				return expect(peersManagerInstance.peers[validPeer.string])
+					.to.have.property('state')
+					.equal(1);
 			});
 		});
 
